@@ -3,7 +3,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/GameMenu"
-	android:background="@drawable/conductor"
+	android:background="@drawable/titlebg2"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
     
@@ -12,16 +12,18 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:layout_centerHorizontal="true"
-        android:src="@drawable/conductor">
+		android:layout_marginTop="140dp"
+        android:src="@drawable/title">
     </ImageView>
     
     <ImageView
-        android:id="@+id/GameTitle"
+        android:id="@+id/conductor"
         android:contentDescription="@string/gametitle"
-		android:layout_width="472dp"
-		android:layout_height="149dp"
-		android:layout_centerHorizontal="true"
-        android:src="@drawable/conductor">
+		android:layout_width="332dp"
+		android:layout_height="480dp"
+		android:layout_alignParentRight = "true"
+        android:src="@drawable/conductor"
+		android:layout_marginRight="-100dp">
     </ImageView>
     
     <TextView 
@@ -30,8 +32,9 @@
     	android:layout_width="wrap_content"  
     	android:layout_height="fill_parent"
     	android:textAppearance="?android:attr/textAppearanceLarge"
-		android:layout_centerHorizontal="true"
+		android:layout_alignParentLeft = "true"
 		android:layout_marginTop="100dp"
+		android:layout_marginLeft="150dp"
     />
     
     <TableLayout 
@@ -39,14 +42,15 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
-		android:layout_centerHorizontal="true"
+		android:layout_alignParentLeft = "true"
 		android:layout_marginTop="130dp">
 	    
 	    <Button
 			android:id="@+id/StartGame"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:background="@drawable/startgame_button">
+			android:background="@drawable/startgame_button"
+			android:layout_marginLeft="125dp">
 		</Button>
 		
 	    <TextView
@@ -54,12 +58,6 @@
 			android:layout_width="wrap_content"
 			android:layout_height="20dp">
 		</TextView>
-		
-	    <Button
-			android:id="@+id/Instructions"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:background="@drawable/startgame_button">
-		</Button>
+
 	</TableLayout>
 </RelativeLayout>
