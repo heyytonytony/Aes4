@@ -5,9 +5,12 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.widget.ImageView;
 
 public class Aes4Activity extends Activity
 {
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -17,6 +20,9 @@ public class Aes4Activity extends Activity
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		Window window = getWindow();
 		window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+		
+		
+		
 	}
 	
 	/**
