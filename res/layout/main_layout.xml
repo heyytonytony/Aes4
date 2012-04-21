@@ -3,27 +3,47 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/GameMenu"
-	android:background="@drawable/conductor"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
     
     <ImageView
-        android:id="@+id/TitleScreen"
+        android:id="@+id/MenuBG"
+        android:contentDescription="@string/gametitle"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:layout_centerHorizontal="true"
-        android:src="@drawable/conductor">
-    </ImageView>
+        android:src="@drawable/titlebg"
+    />
+    
+	<ImageView 
+	    android:id="@+id/cloud1Image"
+        android:contentDescription="@string/cloud1Img"
+	    android:layout_marginTop="60dp"
+	    android:layout_marginLeft="100dp"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:src="@drawable/cloud1"
+   	/>
+    
+	<ImageView 
+	    android:id="@+id/cloud2Image"
+        android:contentDescription="@string/cloud2Img"
+	    android:layout_marginTop="30dp"
+	    android:layout_marginLeft="350dp"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:src="@drawable/cloud2"
+   	/>
     
     <ImageView
         android:id="@+id/GameTitle"
-        android:contentDescription="@string/gametitle"
-		android:layout_width="472dp"
-		android:layout_height="149dp"
+        android:contentDescription="@string/menuBG"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
 		android:layout_centerHorizontal="true"
-        android:src="@drawable/conductor">
-    </ImageView>
-    
+        android:src="@drawable/game_title"
+    />
+	"
     <TextView 
     	android:text="Max level: 0"  
     	android:id="@+id/textv1"
