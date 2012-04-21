@@ -3,6 +3,7 @@ package com.colintony.aes4;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder.Callback;
@@ -23,6 +24,7 @@ public class Aes4View extends SurfaceView implements Callback
 
 		// pre-create thread
 		thread = new Aes4Thread(surfaceHolder, getContext(), getHandler());
+		thread.setRunning(true);
 	}
 
 	@Override
@@ -77,9 +79,54 @@ public class Aes4View extends SurfaceView implements Callback
 
 	}
 	
+	  /* 
+    Called automatically when the view's orientation changes or gets resized etc. 
+*/
+  @Override
+  protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld){
+      super.onSizeChanged(xNew, yNew, xOld, yOld);
+
+      float n1 = (float)xNew/800;
+      float n2 = (float)yNew/480;
+      thread.setScale(Math.min(n1,  n2));
+  }
+	
 	public Aes4Thread getThread()
 	{
 		return thread;
 	}
+	
+	
+	private float mx2, mx3, my2, my3;
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		
+		int point = event.getPointerId(0);
+		int eventaction = event.getAction();
 
+		if (eventaction == MotionEvent.ACTION_DOWN) {
+			mx2 = event.getX(point);
+	    	my2 = event.getY(point);
+		}
+  	  	
+		if (eventaction == MotionEvent.ACTION_MOVE) {
+	  	  	for (int i = 0; i < event.getPointerCount(); i++) {
+			    point = event.getPointerId(i);
+			    if(point<2){  
+		    		point = event.getPointerId(i);
+		    		mx3 -= Math.max(Math.min(25,mx2-event.getX(point)),-25);
+		    		my3 -= Math.max(Math.min(25,my2-event.getY(point)),-25);
+		    		mx2 = (int)event.getX(point);
+		    		my2 = (int)event.getY(point);
+		    		
+		    		mx3 = (float) Math.max(Math.min(0,mx3),-400);
+		    		my3 = (float) Math.max(Math.min(0,my3),-320);
+		    		
+		    		thread.setM(mx3, my3);
+			    }
+	  	  	}
+		}
+		
+		return true; 
+	}
 }

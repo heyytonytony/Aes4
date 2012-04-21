@@ -8,8 +8,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     
-    <com.colintony.aes2.Aes4View
-      android:id="@+id/aes4_layout"
+    <com.colintony.aes4.Aes4View
+      android:id="@+id/aes4viewlayout"
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"/>
          

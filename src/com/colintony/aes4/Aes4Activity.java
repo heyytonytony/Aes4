@@ -5,8 +5,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.widget.ImageView;
 
 public class Aes4Activity extends Activity
 {
@@ -21,8 +19,8 @@ public class Aes4Activity extends Activity
 		Window window = getWindow();
 		window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 		
-		
-		
+		Aes4View aes4 = (Aes4View) findViewById(R.id.aes4viewlayout);
+		aes4.getPaddingTop(); //stops those squiggly yellow lines -_-
 	}
 	
 	/**
