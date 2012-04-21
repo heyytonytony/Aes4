@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/GameMenu"
+	android:background="@drawable/conductor"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+    
+    <ImageView
+        android:id="@+id/TitleScreen"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_centerHorizontal="true"
+        android:src="@drawable/conductor">
+    </ImageView>
+    
+    <ImageView
+        android:id="@+id/GameTitle"
+        android:contentDescription="@string/gametitle"
+		android:layout_width="472dp"
+		android:layout_height="149dp"
+		android:layout_centerHorizontal="true"
+        android:src="@drawable/conductor">
+    </ImageView>
+    
+    <TextView 
+    	android:text="Max level: 0"  
+    	android:id="@+id/textv1"
+    	android:layout_width="wrap_content"  
+    	android:layout_height="fill_parent"
+    	android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="100dp"
+    />
+    
+    <TableLayout 
+		android:id="@+id/GameMenuTable"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="130dp">
+	    
+	    <Button
+			android:id="@+id/StartGame"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:background="@drawable/startgame_button">
+		</Button>
+		
+	    <TextView
+			android:id="@+id/spacer0"
+			android:layout_width="wrap_content"
+			android:layout_height="20dp">
+		</TextView>
+		
+	    <Button
+			android:id="@+id/Instructions"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:background="@drawable/startgame_button">
+		</Button>
+	</TableLayout>
+</RelativeLayout>
