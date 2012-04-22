@@ -4,6 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.graphics.Paint.Align;
 import android.os.Handler;
 import android.view.SurfaceHolder;
 
@@ -19,7 +23,12 @@ public class Aes4Thread extends Thread
     private float oscale = 0;
     
     public float mx, my, mx2, my2;
+    public float tx, ty;
+    
+    public int X = 15;
 	
+    private Paint paint = new Paint();
+    
     private Bitmap[] pngs = new Bitmap[25];
     
     
@@ -27,7 +36,10 @@ public class Aes4Thread extends Thread
 	public Aes4Thread(SurfaceHolder holder, Context context, Handler handler)
 	{
 		surfaceHolder = holder;
-		pngs[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.level1);
+		pngs[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.level1b);
+		pngs[1] = BitmapFactory.decodeResource(context.getResources(), R.drawable.train);
+		
+		ty = 500;
 	}
 
 	public void setRunning(boolean b)
@@ -46,17 +58,35 @@ public class Aes4Thread extends Thread
 		canvas.save();
     	canvas.scale(oscale,oscale,0,0);
     	
+    	//bg
     	canvas.drawBitmap(pngs[0], mx, my, null);
     	
+    	//train
+    	canvas.drawBitmap(pngs[1], tx+mx, ty+my, null);
+    	paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setTextSize(20);
+        paint.setAlpha(100);
+        paint.setTextAlign(Align.CENTER);
+        paint.setTypeface(Typeface.SANS_SERIF);
+        
+		canvas.drawText("X = " + X, mx+tx+37, my+ty+42, paint);
+		
+		
         canvas.restore();
 	}
 	
 	private void update() {
+		
+		//Pan across screen
 		if(mx2>mx)mx+=(mx2-mx)/3;
 		else if(mx2<mx)mx-=(mx-mx2)/4;
 	
 		if(my2>my)my+=(my2-my)/3;
 		else if(my2<my)my-=(my-my2)/4;
+		
+		//Train
+		tx +=1.5;
 	}
 	
     @Override
