@@ -12,6 +12,7 @@ public class Aes4View extends SurfaceView implements Callback
 {
 	
 	private Aes4Thread thread;
+	private float fwidth, fheight;
 	
 	public Aes4View(Context context, AttributeSet attrs)
 	{
@@ -85,7 +86,9 @@ public class Aes4View extends SurfaceView implements Callback
   @Override
   protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld){
       super.onSizeChanged(xNew, yNew, xOld, yOld);
-
+      fwidth = xNew;
+      fheight = yNew;
+      
       float n1 = (float)xNew/800;
       float n2 = (float)yNew/480;
       thread.setScale(Math.min(n1,  n2));
@@ -98,6 +101,7 @@ public class Aes4View extends SurfaceView implements Callback
 	
 	
 	private float mx2, mx3, my2, my3;
+	private float sx, sy;
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		
@@ -107,6 +111,9 @@ public class Aes4View extends SurfaceView implements Callback
 		if (eventaction == MotionEvent.ACTION_DOWN) {
 			mx2 = event.getX(point);
 	    	my2 = event.getY(point);
+	    	
+			sx = mx2;
+	    	sy = my2;
 		}
   	  	
 		if (eventaction == MotionEvent.ACTION_MOVE) {
@@ -125,6 +132,12 @@ public class Aes4View extends SurfaceView implements Callback
 		    		thread.setM(mx3, my3);
 			    }
 	  	  	}
+		}
+		
+		if (eventaction == MotionEvent.ACTION_UP) {
+			if(event.getX(point) < sx + 70 && event.getX(point) > sx - 70 &&
+					event.getY(point) < sy + 70 && event.getY(point) > sy - 70 )
+				thread.click(sx/fwidth, sy/fheight);
 		}
 		
 		return true; 

@@ -31,6 +31,7 @@ public class Aes4Thread extends Thread
     
     private Bitmap[] pngs = new Bitmap[25];
     
+    private int[] turns = new int[3];
     
     
 	public Aes4Thread(SurfaceHolder holder, Context context, Handler handler)
@@ -38,6 +39,7 @@ public class Aes4Thread extends Thread
 		surfaceHolder = holder;
 		pngs[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.level1b);
 		pngs[1] = BitmapFactory.decodeResource(context.getResources(), R.drawable.train);
+		pngs[2] = BitmapFactory.decodeResource(context.getResources(), R.drawable.arrow);
 		
 		ty = 500;
 	}
@@ -60,6 +62,29 @@ public class Aes4Thread extends Thread
     	
     	//bg
     	canvas.drawBitmap(pngs[0], mx, my, null);
+    	
+    	//connection arrows
+    	if(turns[0] == 0) canvas.drawBitmap(pngs[2], mx + 280, my + 535, null);
+    	if(turns[0] == 1){
+    		canvas.save();
+    		canvas.rotate(90, mx + 280 + 25,  my + 535 + 19);
+    		canvas.drawBitmap(pngs[2], mx + 280, my + 535, null);
+    		canvas.restore();
+    	}
+    	if(turns[0] == 2){
+    		canvas.save();
+    		canvas.rotate(-90, mx + 280 + 25,  my + 535 + 19);
+    		canvas.drawBitmap(pngs[2], mx + 280, my + 535, null);
+    		canvas.restore();
+    	}
+    	
+    	if(turns[1] == 0) canvas.drawBitmap(pngs[2], mx + 615, my + 535, null);
+    	if(turns[1] == 1){
+    		canvas.save();
+    		canvas.rotate(-90, mx + 615 + 25,  my + 535 + 19);
+    		canvas.drawBitmap(pngs[2], mx + 615, my + 535, null);
+    		canvas.restore();
+    	}
     	
     	//train
     	canvas.drawBitmap(pngs[1], tx+mx, ty+my, null);
@@ -106,6 +131,20 @@ public class Aes4Thread extends Thread
 	            }
 	        }
     	}
+    }
+    
+    public void click(float cx, float cy){
+    	float px = (305+mx)/800;
+    	float py = (555+my)/480;
+    	
+    	if(cx < px +70/800f && cx > px -70/800f &&
+    			cy < py +70/480f && cy > py -70/480f) turns[0] = (turns[0]+1)%3;
+    		
+    	px = (640+mx)/800;
+    	py = (555+my)/480;
+    	
+    	if(cx < px +70/800f && cx > px -70/800f &&
+    			cy < py +70/480f && cy > py -70/480f) turns[1] = (turns[1]+1)%2;
     }
     
     public void setScale(float oscale){
