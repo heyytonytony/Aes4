@@ -203,7 +203,7 @@ public class Aes4Thread extends Thread
 					
 				case 2:
 					//up
-					if(tx > 74 && tx < 76)
+					if(tx > 70 && tx < 72)
 					{
 						newDir = 1;
 						state = 2;
@@ -227,7 +227,7 @@ public class Aes4Thread extends Thread
 					
 				case 1:
 					//up
-					if(tx > 409 && tx < 411)
+					if(tx > 404 && tx < 406)
 					{
 						newDir = 1;
 						state = -1;
@@ -268,19 +268,19 @@ public class Aes4Thread extends Thread
 		if(state == 2)
 		{
 			//first turn
-			if(turn == 0 && tx > 673 && tx < 675 && ty > 499 && ty < 501)
+			if(turn == 0 && direct == 1 && ty > 569 && ty < 571) //tx == 251.0
 			{
 				newDir = 2;
 				turn++;
 			}
 			//second turn
-			else if(turn == 1 && tx > 790 && ty > 552 && ty < 554)
+			else if(turn == 1 && direct == 2 && tx > 370 && tx < 372)
 			{
-				newDir = 1;
+				newDir = 3;
 				turn++;
 			}
 			//third turn
-			else if(turn == 2 && tx > 558 && tx < 560 && ty > 732 && ty < 733)
+			else if(turn == 2 && direct == 3 && ty > 319 && ty < 321) //tx == 191
 			{
 				newDir = 0;
 				state = 0;
@@ -331,22 +331,22 @@ public class Aes4Thread extends Thread
 			{
 				case 0:
 					if(direct == 1) rot += 0.75;
-					else if(direct == 3) rot -= 0.75;
+					else if(direct == 3) {rot -= 0.75; tx -= 1;}
 					break;
 					
 				case 1:
 					if(direct == 2) rot += 0.75;
-					else if(direct == 0) rot -= 0.75;
+					else if(direct == 0) {rot -= 0.75; ty += 1;}
 					break;
 					
 				case 2:
 					if(direct == 3) rot += 0.75;
-					else if(direct == 1) rot -= 0.75;
+					else if(direct == 1) {rot -= 0.75; tx += 1;}
 					break;
 					
 				case 3:
 					if(direct == 0) rot += 0.75;
-					else if(direct == 2) rot -= 0.75;
+					else if(direct == 2) {rot -= 0.75; ty -= 1;}
 					break;
 			}
 		}
