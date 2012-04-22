@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Handler;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 public class Aes4Thread extends Thread
@@ -25,9 +26,12 @@ public class Aes4Thread extends Thread
     public float tx, ty;
     public float rot;
     
+    public int newDir = 0;
     public int X = 0;
 	public int frame = 0;
 	public int direct = 0;
+	public int state = 0;
+	public int turn = 0;
 	//right0,up1,left2,down3
     private Paint paint = new Paint();
     
@@ -72,10 +76,12 @@ public class Aes4Thread extends Thread
     	switch(turns[0])
     	{
     		case 0:
+    			//right
     			canvas.drawBitmap(pngs[2], mx + 280, my + 535, null);
     			break;
     			
     		case 1:
+    			//down
         		canvas.save();
         		canvas.rotate(90, mx + 280 + 25,  my + 535 + 19);
         		canvas.drawBitmap(pngs[2], mx + 280, my + 535, null);
@@ -83,20 +89,22 @@ public class Aes4Thread extends Thread
         		break;
         		
     		case 2:
+    			//up
         		canvas.save();
         		canvas.rotate(-90, mx + 280 + 25,  my + 535 + 19);
         		canvas.drawBitmap(pngs[2], mx + 280, my + 535, null);
         		canvas.restore();
         		break;
     	}
-    	
     	switch(turns[1])
     	{
     		case 0:
+    			//right
     			canvas.drawBitmap(pngs[2], mx + 615, my + 535, null);
     			break;
     			
     		case 1:
+    			//up
         		canvas.save();
         		canvas.rotate(-90, mx + 615 + 25,  my + 535 + 19);
         		canvas.drawBitmap(pngs[2], mx + 615, my + 535, null);
@@ -155,32 +163,195 @@ public class Aes4Thread extends Thread
 		if(my2>my)my+=(my2-my)/3;
 		else if(my2<my)my-=(my-my2)/4;
 		
-		//Train
-		if(frame > 350 && tx < 830 && direct == 0) tx +=1.5;
-		if (ty > 200 && direct == 1) ty -=1.5;
-		if (tx > 100 && direct == 2) tx -=1.5;
-		if (ty < 750 && direct == 3) ty +=1.5;
+		//Train movement
+		if(frame > 330 && direct == 0) tx +=1.5;
+		if (direct == 1) ty -=1.5;
+		if (direct == 2) tx -=1.5;
+		if (direct == 3) ty +=1.5;
 		
-		//turns280,535
-		if(tx > 250 && tx < 280 && ty > 500){
-			//rot
+		//Direction
+		rot = (rot + 360) % 360;
+		if(rot == 0) direct = 0; //right
+		else if(rot == 270) direct = 1; //up
+		else if(rot == 180) direct = 2; //left
+		else if(rot == 90) direct = 3; //down
+		
+		//Turns
+		if(ty > 499 && ty < 501)
+		{
+			//first switch station
+			switch(turns[0])
+			{
+				case 0:
+					//right
+					if(tx > 175 && tx < 177)
+					{
+						newDir = 0;
+						Log.d("first switch", "going straight (right)");
+					}
+					break;
+					
+				case 1:
+					//down
+					if(tx > 175 && tx < 177)
+					{
+						newDir = 3;
+						state = 1;
+						Log.d("first switch", "going down");
+					}
+					break;
+					
+				case 2:
+					//up
+					if(tx > 74 && tx < 76)
+					{
+						newDir = 1;
+						state = 2;
+						Log.d("first switch", "going up");	
+					}
+					break;
+			}
+			
+			//second switch station
+			switch(turns[1])
+			{
+				case 0:
+					//right
+					if(tx > 509 && tx < 511)
+					{
+						newDir = 0;
+						state = 3;
+						Log.d("second switch", "going straight (right)");
+					}
+					break;
+					
+				case 1:
+					//up
+					if(tx > 409 && tx < 411)
+					{
+						newDir = 1;
+						state = -1;
+						Log.d("second switch", "going up");
+					}
+					break;
+			}
 		}
 		
-		//turns
-		if(tx > 655 && ty > 400){
-			if(rot < 90) rot += 0.75;
-			if(tx > 828 && rot > 89) direct = 3;
-			if(ty > 748 && rot > 179) direct = 2;
-			if(ty > 555 && rot < 180) rot += 0.75;
+		//state1 loop
+		if(state == 1)
+		{
+			//first turn
+			if(turn == 0 && ty > 552 && ty < 554) //tx == 356.0
+			{
+				newDir = 2;
+				turn++;
+			}
+			//second turn
+			else if(turn == 1 && tx > 266 && tx < 268) //ty == 732.5
+			{
+				newDir = 1;
+				turn++;
+			}
+			//third turn
+			else if(turn == 2 && ty > 679 && ty < 681) //tx == 87.5
+			{
+				newDir = 0;
+				state = 0;
+				turn = 0;
+			}
+			
+			//performing state operation
+			if(tx > 284 && tx < 286 && ty > 732 && ty < 733) X += 2;
 		}
-		if(tx > 280 && ty > 400 && direct != 0 && direct != 3){
-			if(tx < 500 && rot > 179) rot+= 0.75;
-			if(tx < 400 && rot > 269) direct = 1;
-			else if(tx < 400) direct = 5;
-			if(ty < 650 && rot > 180 && rot < 360) rot+= 0.75;
-			if(ty < 500 && rot == 0) direct = 0;
-			if(rot > 359) rot = 0;
+		
+		//state2 loop
+		if(state == 2)
+		{
+			//first turn
+			if(turn == 0 && tx > 673 && tx < 675 && ty > 499 && ty < 501)
+			{
+				newDir = 2;
+				turn++;
+			}
+			//second turn
+			else if(turn == 1 && tx > 790 && ty > 552 && ty < 554)
+			{
+				newDir = 1;
+				turn++;
+			}
+			//third turn
+			else if(turn == 2 && tx > 558 && tx < 560 && ty > 732 && ty < 733)
+			{
+				newDir = 0;
+				state = 0;
+				turn = 0;
+			}
+			
+			//performing state operation
+			if(tx > 624 && tx < 626 && ty > 732 && ty < 733) X += 3;
 		}
+		
+		//state3 loop
+		if(state == 3)
+		{
+			//first turn
+			if(turn == 0 && tx > 673 && tx < 675) //ty == 500.0
+			{
+				newDir = 3;
+				turn++;
+			}
+			//second turn
+			else if(turn == 1 && ty > 552 && ty < 554) //tx == 854.0
+			{
+				newDir = 2;
+				turn++;
+			}
+			//third turn
+			else if(turn == 2 && tx > 559 && tx < 561) //ty == 732.5
+			{
+				newDir = 1;
+				turn++;
+			}
+			//fourth turn
+			else if(turn == 3 && ty > 679 && ty < 681) //tx == 380.0
+			{
+				newDir = 0;
+				state = 0;
+				turn = 0;
+			}
+			
+			//performing state operation
+			if(tx > 684 && tx < 686 && ty > 732 && ty < 733) X *= 3;
+		}
+		
+		//changing directions
+		if(newDir != direct)
+		{
+			switch(newDir)
+			{
+				case 0:
+					if(direct == 1) rot += 0.75;
+					else if(direct == 3) rot -= 0.75;
+					break;
+					
+				case 1:
+					if(direct == 2) rot += 0.75;
+					else if(direct == 0) rot -= 0.75;
+					break;
+					
+				case 2:
+					if(direct == 3) rot += 0.75;
+					else if(direct == 1) rot -= 0.75;
+					break;
+					
+				case 3:
+					if(direct == 0) rot += 0.75;
+					else if(direct == 2) rot -= 0.75;
+					break;
+			}
+		}
+
+		Log.d("lala", "tx: " + tx + "   ty: " + ty + "  rot: " + rot + "  direct: " + direct + "  newdir: " + newDir);
 	}
 	
     @Override
