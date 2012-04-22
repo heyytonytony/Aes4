@@ -24,9 +24,12 @@ public class Aes4Thread extends Thread
     
     public float mx, my, mx2, my2;
     public float tx, ty;
+    public float rot;
     
-    public int X = 15;
-	
+    public int X = 0;
+	public int frame = 0;
+	public int direct = 0;
+	//right0,up1,left2,down3
     private Paint paint = new Paint();
     
     private Bitmap[] pngs = new Bitmap[25];
@@ -42,6 +45,7 @@ public class Aes4Thread extends Thread
 		pngs[2] = BitmapFactory.decodeResource(context.getResources(), R.drawable.arrow);
 		
 		ty = 500;
+		tx = -85;
 	}
 
 	public void setRunning(boolean b)
@@ -87,21 +91,35 @@ public class Aes4Thread extends Thread
     	}
     	
     	//train
-    	canvas.drawBitmap(pngs[1], tx+mx, ty+my, null);
+    	canvas.save();
+    	canvas.translate(tx, ty);
+    	canvas.rotate(rot, mx, my);
+    	canvas.drawBitmap(pngs[1], mx, my, null);
+    	
     	paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(20);
         paint.setAlpha(100);
         paint.setTextAlign(Align.CENTER);
         paint.setTypeface(Typeface.SANS_SERIF);
+        canvas.drawText("X = " + X, mx+37, my+42, paint);
         
-		canvas.drawText("X = " + X, mx+tx+37, my+ty+42, paint);
+        canvas.restore();
+        
 		
+		
+		
+		if(frame < 300){
+			paint.setTextSize(100);	   
+			paint.setAlpha(500);
+			canvas.drawText("" + (int)((300-frame)/ 71), 120, 120, paint);
+		}
 		
         canvas.restore();
 	}
 	
 	private void update() {
+		frame++;
 		
 		//Pan across screen
 		if(mx2>mx)mx+=(mx2-mx)/3;
@@ -111,7 +129,31 @@ public class Aes4Thread extends Thread
 		else if(my2<my)my-=(my-my2)/4;
 		
 		//Train
-		tx +=1.5;
+		if(frame > 300 && tx < 830 && direct == 0) tx +=1.5;
+		if (ty > 200 && direct == 1) ty -=1.5;
+		if (tx > 100 && direct == 2) tx -=1.5;
+		if (ty < 750 && direct == 3) ty +=1.5;
+		
+		//turns280,535
+		if(tx > 250 && tx < 280 && ty > 500){
+			//rot
+		}
+		
+		//turns
+		if(tx > 655 && ty > 400){
+			if(rot < 90) rot += 0.75;
+			if(tx > 828 && rot > 89) direct = 3;
+			if(ty > 748 && rot > 179) direct = 2;
+			if(ty > 555 && rot < 180) rot += 0.75;
+		}
+		if(tx > 280 && ty > 400 && direct != 0 && direct != 3){
+			if(tx < 500 && rot > 179) rot+= 0.75;
+			if(tx < 400 && rot > 269) direct = 1;
+			else if(tx < 400) direct = 5;
+			if(ty < 650 && rot > 180 && rot < 360) rot+= 0.75;
+			if(ty < 500 && rot == 0) direct = 0;
+			if(rot > 359) rot = 0;
+		}
 	}
 	
     @Override
