@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_alignParentRight="true"
     android:layout_alignParentLeft="true"
 	android:layout_alignParentTop="true"
@@ -8,9 +8,19 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     
-    <com.colintony.aes4.Aes4View
-      android:id="@+id/aes4viewlayout"
-      android:layout_width="fill_parent"
-      android:layout_height="fill_parent"/>
+	<com.colintony.aes4.Aes4View
+	    android:id="@+id/aes4viewlayout"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"/>
+    
+	<ImageView
+		android:id="@+id/pause"
+		android:contentDescription="@string/pause"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentBottom="true"
+		android:onClick="pause"
+		android:src="@drawable/arrow"/>
          
-</FrameLayout>
+</RelativeLayout>

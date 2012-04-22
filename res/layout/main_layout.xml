@@ -8,7 +8,7 @@
     
     <ImageView
         android:id="@+id/MenuBG"
-        android:contentDescription="@string/gametitle"
+        android:contentDescription="@string/menuBG"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:layout_centerHorizontal="true"
@@ -37,7 +37,8 @@
     
 
     <ImageView
-        android:id="@+id/TitleScreen"
+        android:id="@+id/Title"
+        android:contentDescription="@string/gametitle"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:layout_centerHorizontal="true"
@@ -47,6 +48,7 @@
     
 	<ImageView
         android:id="@+id/conductor"
+        android:contentDescription="@string/conductor"
 		android:layout_width="332dp"
 		android:layout_height="480dp"
 		android:layout_alignParentRight = "true"

@@ -7,14 +7,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.graphics.Paint.Align;
 import android.os.Handler;
 import android.view.SurfaceHolder;
 
 public class Aes4Thread extends Thread
 {
 
-	private boolean running;
+	private boolean alive, running;
 	private Canvas c;
 	private SurfaceHolder surfaceHolder = null;
 	
@@ -46,6 +45,7 @@ public class Aes4Thread extends Thread
 		
 		ty = 500;
 		tx = -85;
+		alive = true;
 	}
 
 	public void setRunning(boolean b)
@@ -56,11 +56,12 @@ public class Aes4Thread extends Thread
 
 	public void killThread()
 	{
-		// TODO Auto-generated method stub
+		alive = false;
 		
 	}
 
-	private void draw(Canvas canvas) {
+	private void draw(Canvas canvas)
+	{
 		canvas.save();
     	canvas.scale(oscale,oscale,0,0);
     	
@@ -68,26 +69,39 @@ public class Aes4Thread extends Thread
     	canvas.drawBitmap(pngs[0], mx, my, null);
     	
     	//connection arrows
-    	if(turns[0] == 0) canvas.drawBitmap(pngs[2], mx + 280, my + 535, null);
-    	if(turns[0] == 1){
-    		canvas.save();
-    		canvas.rotate(90, mx + 280 + 25,  my + 535 + 19);
-    		canvas.drawBitmap(pngs[2], mx + 280, my + 535, null);
-    		canvas.restore();
-    	}
-    	if(turns[0] == 2){
-    		canvas.save();
-    		canvas.rotate(-90, mx + 280 + 25,  my + 535 + 19);
-    		canvas.drawBitmap(pngs[2], mx + 280, my + 535, null);
-    		canvas.restore();
+    	switch(turns[0])
+    	{
+    		case 0:
+    			canvas.drawBitmap(pngs[2], mx + 280, my + 535, null);
+    			break;
+    			
+    		case 1:
+        		canvas.save();
+        		canvas.rotate(90, mx + 280 + 25,  my + 535 + 19);
+        		canvas.drawBitmap(pngs[2], mx + 280, my + 535, null);
+        		canvas.restore();
+        		break;
+        		
+    		case 2:
+        		canvas.save();
+        		canvas.rotate(-90, mx + 280 + 25,  my + 535 + 19);
+        		canvas.drawBitmap(pngs[2], mx + 280, my + 535, null);
+        		canvas.restore();
+        		break;
     	}
     	
-    	if(turns[1] == 0) canvas.drawBitmap(pngs[2], mx + 615, my + 535, null);
-    	if(turns[1] == 1){
-    		canvas.save();
-    		canvas.rotate(-90, mx + 615 + 25,  my + 535 + 19);
-    		canvas.drawBitmap(pngs[2], mx + 615, my + 535, null);
-    		canvas.restore();
+    	switch(turns[1])
+    	{
+    		case 0:
+    			canvas.drawBitmap(pngs[2], mx + 615, my + 535, null);
+    			break;
+    			
+    		case 1:
+        		canvas.save();
+        		canvas.rotate(-90, mx + 615 + 25,  my + 535 + 19);
+        		canvas.drawBitmap(pngs[2], mx + 615, my + 535, null);
+        		canvas.restore();
+    			break;
     	}
     	
     	//train
@@ -100,7 +114,7 @@ public class Aes4Thread extends Thread
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(20);
         paint.setAlpha(100);
-        paint.setTextAlign(Align.CENTER);
+        paint.setTextAlign(Paint.Align.CENTER);
         paint.setTypeface(Typeface.SANS_SERIF);
         canvas.drawText("X = " + X, mx+37, my+42, paint);
         
@@ -108,17 +122,30 @@ public class Aes4Thread extends Thread
         
 		
 		
-		
-		if(frame < 300){
-			paint.setTextSize(100);	   
-			paint.setAlpha(500);
-			canvas.drawText("" + (int)((300-frame)/ 71), 120, 120, paint);
+		// countdown to game beginning
+		if(frame < 350){
+			paint.setTextSize(100);
+			paint.setAlpha(255);
+			if(frame < 280)
+				canvas.drawText("" + (int)((300-frame)/ 71), 120, 120, paint);
+			else
+				canvas.drawText("Start!", 120, 120, paint);
+			
+			paint.setColor(Color.BLACK);
+			paint.setStyle(Paint.Style.STROKE);
+			paint.setStrokeWidth(2);
+			paint.setAntiAlias(true);
+			if(frame < 280)
+				canvas.drawText("" + (int)((300-frame)/ 71), 120, 120, paint);
+			else
+				canvas.drawText("Start!", 120, 120, paint);
 		}
 		
         canvas.restore();
 	}
 	
-	private void update() {
+	private void update()
+	{
 		frame++;
 		
 		//Pan across screen
@@ -129,7 +156,7 @@ public class Aes4Thread extends Thread
 		else if(my2<my)my-=(my-my2)/4;
 		
 		//Train
-		if(frame > 300 && tx < 830 && direct == 0) tx +=1.5;
+		if(frame > 350 && tx < 830 && direct == 0) tx +=1.5;
 		if (ty > 200 && direct == 1) ty -=1.5;
 		if (tx > 100 && direct == 2) tx -=1.5;
 		if (ty < 750 && direct == 3) ty +=1.5;
@@ -157,23 +184,33 @@ public class Aes4Thread extends Thread
 	}
 	
     @Override
-    public void run() {
-    	while(running){
-	       	c = null;
-	        try {
-	            c = surfaceHolder.lockCanvas(null);
-	            synchronized (surfaceHolder) {
-	                //if (mode == STATE_RUNNING) 
-	            	update();
-	                draw(c);
-	            }
-	        } finally {
-	            if (c != null) {
-	                surfaceHolder.unlockCanvasAndPost(c);
-	            }
-	        }
-    	}
-    }
+	public void run()
+	{
+		while(alive)
+		{
+			if(running)
+			{
+				c = null;
+				try
+				{
+					c = surfaceHolder.lockCanvas(null);
+					synchronized(surfaceHolder)
+					{
+						// if (mode == STATE_RUNNING)
+						update();
+						draw(c);
+					}
+				}
+				finally
+				{
+					if(c != null)
+					{
+						surfaceHolder.unlockCanvasAndPost(c);
+					}
+				}
+			}
+		}
+	}
     
     public void click(float cx, float cy){
     	float px = (305+mx)/800;

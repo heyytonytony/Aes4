@@ -2,10 +2,12 @@
 <resources>
 
     <string name="hello">Hello World, Aes4Activity!</string>
-    <string name="app_name">Finite Stations</string>
-    <string name="gametitle">Finite Stations</string>
+    <string name="app_name">Finite Station</string>
+    <string name="gametitle">Finite Station</string>
     <string name="menuBG">Menu Background</string>
     <string name="cloud1Img">Cloud1 Image</string>
     <string name="cloud2Img">Cloud2 Image</string>
+    <string name="conductor">Conductor Image</string>
+    <string name="pause">Pause</string>
 
 </resources>
