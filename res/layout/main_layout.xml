@@ -46,7 +46,7 @@
     </ImageView>
     
 	<ImageView
-        android:id="@+id/TitleScreen"
+        android:id="@+id/conductor"
 		android:layout_width="332dp"
 		android:layout_height="480dp"
 		android:layout_alignParentRight = "true"
@@ -74,31 +74,29 @@
 		android:layout_alignParentLeft = "true"
 		android:layout_marginTop="130dp">
 	    
-	    <Button
-			android:id="@+id/StartGame"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:background="@drawable/startgame_button"
-			android:layout_marginTop="15dp"
-			android:layout_marginLeft="20dp">
-		</Button>
-	</TableLayout>
-	
-        <TableLayout 
-		android:id="@+id/GameMenuTable2"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal"
-		android:layout_alignParentLeft = "true"
-		android:layout_marginTop="130dp">
-	    
-	    <Button
-			android:id="@+id/StartGame2"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:background="@drawable/startgame_button"
-			android:layout_marginTop="15dp"
-			android:layout_marginLeft="210dp">
-		</Button>
+	    <TableRow
+	        android:id="@+id/GameMenuButtonRow"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:stretchColumns="*" > 
+		    <Button
+				android:id="@+id/StartGame"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:background="@drawable/startgame_button"
+				android:layout_marginTop="15dp"
+				android:layout_marginLeft="10dp">
+			</Button>
+		    
+		    <Button
+				android:id="@+id/Instructions"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:background="@drawable/instructions_button"
+				android:layout_marginTop="15dp"
+				android:layout_marginLeft="10dp">
+			</Button>
+		</TableRow>
+		
 	</TableLayout>
 </RelativeLayout>
