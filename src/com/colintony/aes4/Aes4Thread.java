@@ -234,7 +234,7 @@ public class Aes4Thread extends Thread
 			{
 				case 0:
 					//right
-					if(tx > 509 && tx < 511)
+					if(tx > 404 && tx < 406)
 					{
 						newDir = 0;
 						state = 3;
@@ -258,13 +258,13 @@ public class Aes4Thread extends Thread
 		if(state == 1)
 		{
 			//first turn
-			if(turn == 0 && ty > 552 && ty < 554) //tx == 356.0
+			if(turn == 0 && ty > 556 && ty < 558) //tx == 356.0
 			{
 				newDir = 2;
 				turn++;
 			}
 			//second turn
-			else if(turn == 1 && tx > 212 && tx < 214) //ty == 732.5
+			else if(turn == 1 && tx > 213 && tx < 215) //ty == 737.0
 			{
 				newDir = 1;
 				turn++;
@@ -278,7 +278,7 @@ public class Aes4Thread extends Thread
 			}
 			
 			//performing state operation
-			if(tx > 284 && tx < 286 && ty > 732 && ty < 733) X += 2;
+			if(tx > 284 && tx < 286 && ty > 736 && ty < 738) X += 2;
 		}
 		
 		//state2 loop
@@ -318,7 +318,7 @@ public class Aes4Thread extends Thread
 				turn++;
 			}
 			//second turn
-			else if(turn == 1 && ty > 552 && ty < 554) //tx == 854.0
+			else if(turn == 1 && ty > 553 && ty < 555) //tx == 854.0
 			{
 				newDir = 2;
 				turn++;
@@ -349,11 +349,11 @@ public class Aes4Thread extends Thread
 				newDir = 2;
 				turn++;
 			}
-			else if(ty > 394 && ty < 396)
+			else if(X == 15 && ty > 393 && ty < 395)
 			{
 				newDir = 0;
 			}
-			else if(turn == 1 && tx > 289 && tx < 291)
+			else if(turn == 1 && tx > 288 && tx < 290)
 			{
 				newDir = 3;
 				turn++;
