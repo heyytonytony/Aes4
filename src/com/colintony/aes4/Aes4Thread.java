@@ -38,6 +38,7 @@ public class Aes4Thread extends Thread
     private Bitmap[] pngs = new Bitmap[25];
     
     private int[] turns = new int[3];
+    private int[] var = new int[4];
     
     
 	public Aes4Thread(SurfaceHolder holder, Context context, Handler handler)
@@ -51,6 +52,11 @@ public class Aes4Thread extends Thread
 		ty = 500;
 		tx = -85;
 		alive = true;
+		
+		var[0] = 2;
+		var[1] = 3;
+		var[2] = 3;
+		var[3] = 15;
 	}
 
 	public void setRunning(boolean b)
@@ -67,11 +73,25 @@ public class Aes4Thread extends Thread
 
 	private void draw(Canvas canvas)
 	{
+        paint.setStyle(Paint.Style.FILL);
+        paint.setAlpha(500);
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTypeface(Typeface.SANS_SERIF);
+		
+        
 		canvas.save();
     	canvas.scale(oscale,oscale,0,0);
     	
     	//bg
     	canvas.drawBitmap(pngs[0], mx, my, null);
+    	
+    	paint.setColor(Color.BLACK);
+        paint.setTextSize(20);
+        canvas.drawText(""+var[0], mx+250, my+730, paint);
+        canvas.drawText(""+var[1], mx+250, my+370, paint);
+        canvas.drawText(""+var[2], mx+642, my+720, paint);
+        canvas.drawText(""+var[3], mx+585, my+330, paint);
+        canvas.drawText(""+var[3], mx+730, my+330, paint);
     	
     	//connection arrows
     	switch(turns[0])
@@ -120,11 +140,7 @@ public class Aes4Thread extends Thread
     	canvas.drawBitmap(pngs[1], mx, my, null);
     	
     	paint.setColor(Color.WHITE);
-        paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(20);
-        paint.setAlpha(100);
-        paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTypeface(Typeface.SANS_SERIF);
         canvas.drawText("X = " + X, mx+37, my+42, paint);
         
         canvas.restore();
