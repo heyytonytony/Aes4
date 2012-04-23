@@ -89,7 +89,8 @@ public class Aes4Thread extends Thread
         paint.setTextSize(20);
         canvas.drawText(""+var[0], mx+250, my+730, paint);
         canvas.drawText(""+var[1], mx+250, my+370, paint);
-        canvas.drawText(""+var[2], mx+642, my+720, paint);
+        canvas.drawText(""+var[2], mx+644, my+718, paint);
+        paint.setColor(0xff3b668e);
         canvas.drawText(""+var[3], mx+585, my+330, paint);
         canvas.drawText(""+var[3], mx+730, my+330, paint);
     	
@@ -278,7 +279,7 @@ public class Aes4Thread extends Thread
 			}
 			
 			//performing state operation
-			if(tx > 284 && tx < 286 && ty > 736 && ty < 738) X += 2;
+			if(tx > 284 && tx < 286 && ty > 736 && ty < 738) X += var[0];
 		}
 		
 		//state2 loop
@@ -305,7 +306,7 @@ public class Aes4Thread extends Thread
 			}
 			
 			//performing state operation
-			if(tx > 319 && tx < 321 && ty > 355 && ty < 357) X += 3;
+			if(tx > 319 && tx < 321 && ty > 355 && ty < 357) X += var[1];
 		}
 		
 		//state3 loop
@@ -338,18 +339,18 @@ public class Aes4Thread extends Thread
 			}
 			
 			//performing state operation
-			if(tx > 684 && tx < 686 && ty > 732 && ty < 733) X *= 3;
+			if(tx > 684 && tx < 686 && ty > 733 && ty < 735) X *= var[2];
 		}
 		
 		//state -1, going going towards blue checkpoint
 		if(state == -1)
 		{
-			if(X != 15 && ty > 497 && ty < 499)
+			if(X != var[3] && ty > 497 && ty < 499)
 			{
 				newDir = 2;
 				turn++;
 			}
-			else if(X == 15 && ty > 393 && ty < 395)
+			else if(X == var[3] && ty > 393 && ty < 395)
 			{
 				newDir = 0;
 			}
