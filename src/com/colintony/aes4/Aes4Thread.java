@@ -280,7 +280,7 @@ public class Aes4Thread extends Thread
 				turn++;
 			}
 			//third turn
-			else if(turn == 2 && direct == 3 && ty > 319 && ty < 321) //tx == 191
+			else if(turn == 2 && direct == 3 && ty > 319 && ty < 321) //tx == 191.0
 			{
 				newDir = 0;
 				state = 0;
@@ -288,7 +288,7 @@ public class Aes4Thread extends Thread
 			}
 			
 			//performing state operation
-			if(tx > 624 && tx < 626 && ty > 732 && ty < 733) X += 3;
+			if(tx > 319 && tx < 321 && ty > 355 && ty < 357) X += 3;
 		}
 		
 		//state3 loop
@@ -322,6 +322,36 @@ public class Aes4Thread extends Thread
 			
 			//performing state operation
 			if(tx > 684 && tx < 686 && ty > 732 && ty < 733) X *= 3;
+		}
+		
+		//state -1, going going towards blue checkpoint
+		if(state == -1)
+		{
+			if(ty > 497 && ty < 499 && X != 15)
+			{
+				newDir = 2;
+				turn++;
+			}
+			else if(ty > 394 && ty < 396)
+			{
+				newDir = 0;
+			}
+			else if(turn == 1 && tx > 289 && tx < 291)
+			{
+				newDir = 3;
+				turn++;
+			}
+			else if(turn == 2 && ty > 319 && ty < 321)
+			{
+				newDir = 0;
+				state = 0;
+				turn = 0;
+			}
+			
+			if(tx > 919 && tx < 921)
+			{
+				tx -= 1.5;
+			}
 		}
 		
 		//changing directions
