@@ -46,6 +46,7 @@ public class Aes4Thread extends Thread
 		pngs[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.level1d);
 		pngs[1] = BitmapFactory.decodeResource(context.getResources(), R.drawable.train);
 		pngs[2] = BitmapFactory.decodeResource(context.getResources(), R.drawable.arrow);
+		pngs[3] = BitmapFactory.decodeResource(context.getResources(), R.drawable.pause);
 		
 		ty = 500;
 		tx = -85;
