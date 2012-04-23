@@ -248,13 +248,13 @@ public class Aes4Thread extends Thread
 				turn++;
 			}
 			//second turn
-			else if(turn == 1 && tx > 266 && tx < 268) //ty == 732.5
+			else if(turn == 1 && tx > 212 && tx < 214) //ty == 732.5
 			{
 				newDir = 1;
 				turn++;
 			}
 			//third turn
-			else if(turn == 2 && ty > 679 && ty < 681) //tx == 87.5
+			else if(turn == 2 && ty > 679 && ty < 681) //tx == 33.5
 			{
 				newDir = 0;
 				state = 0;
@@ -328,7 +328,7 @@ public class Aes4Thread extends Thread
 		//state -1, going going towards blue checkpoint
 		if(state == -1)
 		{
-			if(ty > 497 && ty < 499 && X != 15)
+			if(X != 15 && ty > 497 && ty < 499)
 			{
 				newDir = 2;
 				turn++;
