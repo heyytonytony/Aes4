@@ -43,7 +43,7 @@ public class Aes4Thread extends Thread
 	public Aes4Thread(SurfaceHolder holder, Context context, Handler handler)
 	{
 		surfaceHolder = holder;
-		pngs[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.level1b);
+		pngs[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.level1d);
 		pngs[1] = BitmapFactory.decodeResource(context.getResources(), R.drawable.train);
 		pngs[2] = BitmapFactory.decodeResource(context.getResources(), R.drawable.arrow);
 		
