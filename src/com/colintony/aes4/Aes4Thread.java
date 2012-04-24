@@ -179,10 +179,18 @@ public class Aes4Thread extends Thread
 				canvas.drawText("Start!", 120, 120, paint);
 		}
 		
-		
+		//win screen
 		if(state == 100) canvas.drawBitmap(pngs[4], mx, my, null);
+		
+		//level
+        paint.setStyle(Paint.Style.FILL);
     	paint.setColor(Color.WHITE);
         paint.setTextSize(40);
+        canvas.drawText("level: " + level,85+mx, 40+my, paint);
+		paint.setColor(Color.BLACK);
+		paint.setStyle(Paint.Style.STROKE);
+		paint.setStrokeWidth(1);
+		paint.setAntiAlias(true);
         canvas.drawText("level: " + level,85+mx, 40+my, paint);
         
         canvas.restore();
