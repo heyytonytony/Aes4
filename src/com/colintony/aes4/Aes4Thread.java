@@ -1,6 +1,7 @@
 package com.colintony.aes4;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -14,9 +15,14 @@ import android.view.SurfaceHolder;
 public class Aes4Thread extends Thread
 {
 
+	public static final String PREFS_NAME = "Aes4Preferences";
+	static SharedPreferences saves;
+	SharedPreferences.Editor editor;
+	
 	private boolean alive, running;
 	private Canvas c;
 	private SurfaceHolder surfaceHolder = null;
+	private Context cont;
 	
     //private float Width = 800;
     //private float Height = 480;
@@ -40,14 +46,18 @@ public class Aes4Thread extends Thread
     private int[] turns = new int[3];
     private int[] var = new int[4];
     
+    private int after;
+    private int level;
     
 	public Aes4Thread(SurfaceHolder holder, Context context, Handler handler)
 	{
 		surfaceHolder = holder;
+		cont = context;
 		pngs[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.level1d);
 		pngs[1] = BitmapFactory.decodeResource(context.getResources(), R.drawable.train);
 		pngs[2] = BitmapFactory.decodeResource(context.getResources(), R.drawable.arrow);
 		pngs[3] = BitmapFactory.decodeResource(context.getResources(), R.drawable.pause);
+		pngs[4] = BitmapFactory.decodeResource(context.getResources(), R.drawable.won);
 		
 		ty = 500;
 		tx = -85;
@@ -57,6 +67,8 @@ public class Aes4Thread extends Thread
 		var[1] = 3;
 		var[2] = 3;
 		var[3] = 15;
+		state = 0;
+		level = 1;
 	}
 
 	public void setRunning(boolean b)
@@ -167,12 +179,23 @@ public class Aes4Thread extends Thread
 				canvas.drawText("Start!", 120, 120, paint);
 		}
 		
+		
+		if(state == 100) canvas.drawBitmap(pngs[4], mx, my, null);
+    	paint.setColor(Color.WHITE);
+        paint.setTextSize(40);
+        canvas.drawText("level: " + level,85+mx, 40+my, paint);
+        
         canvas.restore();
 	}
+	
+	
+
+	
 	
 	private void update()
 	{
 		frame++;
+		if(state == 100) after++;
 		
 		//Pan across screen
 		if(mx2>mx)mx+=(mx2-mx)/3;
@@ -449,6 +472,32 @@ public class Aes4Thread extends Thread
     	
     	if(cx < px +70/800f && cx > px -70/800f &&
     			cy < py +70/480f && cy > py -70/480f) turns[1] = (turns[1]+1)%2;
+    	
+    	if(after > 100){
+    		after = 0;
+    		state = 0;
+    		
+    		ty = 500;
+    		tx = -85;
+    		
+    		var[0] = (int)(4*Math.random()+1);
+    		var[1] = (int)(4*Math.random()+1);
+    		var[2] = (int)(6*Math.random()+1);
+    		var[3] = ((var[0]*(int)(2*Math.random()+1))+(var[1]*(int)(2*Math.random()+1)))*(var[2]*(int)(Math.random()+1));
+    		
+    		frame = 0;
+    		level++;
+    		
+            saves = cont.getSharedPreferences(PREFS_NAME, 0);
+            editor = saves.edit();
+            int max = saves.getInt("max", 0);
+            
+    		if( level > max ){
+    			max = level;
+    		    editor.putInt("max", max);
+    		    editor.commit();
+    		}
+    	}
     }
     
     public void setScale(float oscale){

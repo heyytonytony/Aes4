@@ -2,6 +2,7 @@ package com.colintony.aes4;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class MenuActivity extends Activity
 {
@@ -18,6 +20,8 @@ public class MenuActivity extends Activity
 	/** animated clouds */
 	private ImageView cloud1, cloud2;
 	private Animation cloud1Animation, cloud2Animation;
+	public static final String PREFS_NAME = "Aes4Preferences";
+	static SharedPreferences saves;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -28,6 +32,12 @@ public class MenuActivity extends Activity
 		setContentView(R.layout.main_layout);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        saves = getSharedPreferences(PREFS_NAME, 0);
+        int max = saves.getInt("max", 0);
+        
+        TextView v1 = (TextView) findViewById(R.id.textv1);
+        v1.setText("Max level: " + max);
+		
 		Button StartGameButton = (Button)findViewById(R.id.StartGame);
 
 		StartGameButton.setOnClickListener(new OnClickListener()
@@ -87,5 +97,11 @@ public class MenuActivity extends Activity
 	public void onResume()
 	{
 		super.onResume();
+		
+        saves = getSharedPreferences(PREFS_NAME, 0);
+        int max = saves.getInt("max", 0);
+        
+        TextView v1 = (TextView) findViewById(R.id.textv1);
+        v1.setText("Max level: " + max);
 	}
 }
