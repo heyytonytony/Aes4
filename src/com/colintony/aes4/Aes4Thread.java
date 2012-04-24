@@ -278,7 +278,7 @@ public class Aes4Thread extends Thread
 			}
 			
 			//performing state operation
-			if(tx > 284 && tx < 286 && ty > 736 && ty < 738) X += 2;
+			if(tx > 284 && tx < 286 && ty > 736 && ty < 738) X += var[0];
 		}
 		
 		//state2 loop
@@ -305,7 +305,7 @@ public class Aes4Thread extends Thread
 			}
 			
 			//performing state operation
-			if(tx > 319 && tx < 321 && ty > 355 && ty < 357) X += 3;
+			if(tx > 319 && tx < 321 && ty > 355 && ty < 357) X += var[1];
 		}
 		
 		//state3 loop
@@ -338,7 +338,7 @@ public class Aes4Thread extends Thread
 			}
 			
 			//performing state operation
-			if(tx > 684 && tx < 686 && ty > 732 && ty < 733) X *= 3;
+			if(tx > 684 && tx < 686 && ty > 732 && ty < 733) X = X * var[2];
 		}
 		
 		//state -1, going going towards blue checkpoint
