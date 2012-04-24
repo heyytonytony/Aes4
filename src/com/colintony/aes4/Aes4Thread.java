@@ -368,8 +368,14 @@ public class Aes4Thread extends Thread
 			
 			if(tx > 919 && tx < 921)
 			{
-				tx -= 1.5;
+				state = 100;
 			}
+		}
+		
+		//win!
+		if(state == 100)
+		{
+			tx -= 1.5;
 		}
 		
 		//changing directions
